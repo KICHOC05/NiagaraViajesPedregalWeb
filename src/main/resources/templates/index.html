@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Niagara Viajes Pedregal — Experiencias que Trascienden el Itinerario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" th:href="@{/css/niagara.css}">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <p class="loader-wordmark">Niagara Viajes Pedregal</p>
+  <p class="loader-sub">Experiencias que trascienden el itinerario</p>
+  <div class="loader-bar-wrap" style="margin-top:.5rem">
+    <div class="loader-bar-fill"></div>
+  </div>
+</div>
+
+<!-- HEADER (navbar + drawer + progress) -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- ═══════════ HERO ═══════════ hola cambio
+ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="fdeco d1"></div>
+  <div class="fdeco d2"></div>
+  <div class="fdeco d3">Est. 1989</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Leisure · Grupos · Corporativo · Deportivo</div>
+    <h1 class="hero-title">
+      Viajes que se<br>convierten en <em>historia</em>
+    </h1>
+    <p class="hero-tagline">
+      En un mundo donde viajar ya no es suficiente, diseñamos experiencias que conectan, inspiran y elevan cada momento.
+    </p>
+    <div class="hero-ctas">
+      <a href="#experiencias" class="btn-gold"><i class="fas fa-compass"></i> Explorar Experiencias</a>
+      <a href="#agenda"       class="btn-ghost"><i class="fas fa-calendar-alt"></i> Agendar Reunión</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-mouse"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ═══════════ FILOSOFÍA ═══════════ -->
+<section id="filosofia">
+  <div class="filosofia-inner">
+    <div class="filo-quote" data-aos="fade-right">
+      "Un gran viaje no solo se recuerda… se convierte en referencia."
+      <span>— Niagara Viajes Pedregal</span>
+    </div>
+    <div class="filo-divider"></div>
+    <div class="filo-pills" data-aos="fade-left" data-aos-delay="100">
+      <div class="filo-pill">
+        <div class="filo-pill-icon"><i class="fas fa-gem"></i></div>
+        <div class="filo-pill-text">
+          <h4>Lujo</h4>
+          <p>Experiencias exclusivas con atención al más mínimo detalle en los destinos más icónicos.</p>
+        </div>
+      </div>
+      <div class="filo-pill">
+        <div class="filo-pill-icon"><i class="fas fa-briefcase"></i></div>
+        <div class="filo-pill-text">
+          <h4>Corporativo</h4>
+          <p>Viajes diseñados para fortalecer equipos, celebrar logros y representar la visión de tu empresa.</p>
+        </div>
+      </div>
+      <div class="filo-pill">
+        <div class="filo-pill-icon"><i class="fas fa-trophy"></i></div>
+        <div class="filo-pill-text">
+          <h4>Deportivo</h4>
+          <p>Operaciones precisas para organizaciones que buscan alcanzar metas dentro y fuera de la cancha.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICIOS ═══════════ -->
+<section id="servicios">
+  <div class="svc-header" data-aos="fade-up">
+    <div class="sec-label">Lo que diseñamos</div>
+    <h2 class="sec-title">Cada grupo, un <em>propósito único</em></h2>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card" data-aos="fade-up" data-aos-delay="0">
+      <div class="svc-icon"><i class="fas fa-map-marked-alt"></i></div>
+      <h3>Viajes Nacionales</h3>
+      <p>México te sorprende en cada rincón. Itinerarios curados con acceso a experiencias que muy pocos conocen.</p>
+      <div class="svc-types"><span class="svc-badge">Leisure</span><span class="svc-badge">Grupos</span></div>
+    </div>
+    <div class="svc-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="svc-icon"><i class="fas fa-globe-americas"></i></div>
+      <h3>Viajes Internacionales</h3>
+      <p>Europa, Asia, el Caribe. Experiencias que van más allá de lo turístico, diseñadas para quienes viajan con propósito.</p>
+      <div class="svc-types"><span class="svc-badge">Leisure</span><span class="svc-badge">Corporativo</span></div>
+    </div>
+    <div class="svc-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="svc-icon"><i class="fas fa-infinity"></i></div>
+      <h3>Todo Incluido Premium</h3>
+      <p>Los mejores resorts del mundo, elegidos con criterio. Sin fricciones, sin improvisaciones, sin preocupaciones.</p>
+      <div class="svc-types"><span class="svc-badge">Lujo</span><span class="svc-badge">Familias</span></div>
+    </div>
+    <div class="svc-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="svc-icon"><i class="fas fa-ship"></i></div>
+      <h3>Cruceros de Autor</h3>
+      <p>Mediterráneo, Caribe o Alaska. Las mejores líneas del mundo en experiencias que se convierten en historia.</p>
+      <div class="svc-types"><span class="svc-badge">Lujo</span><span class="svc-badge">Parejas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-box" data-aos="fade-up" data-aos-delay="0">
+      <div class="stat-num-wrap">
+        <span class="stat-num counter" data-target="35">0</span>
+        <span class="stat-suffix">+</span>
+      </div>
+      <div class="stat-label">Años de experiencia</div>
+      <div class="stat-desc">Desde 1989 creando memorias</div>
+    </div>
+    <div class="stat-box" data-aos="fade-up" data-aos-delay="100">
+      <div class="stat-num-wrap">
+        <span class="stat-num counter" data-target="5000">0</span>
+        <span class="stat-suffix">+</span>
+      </div>
+      <div class="stat-label">Viajeros felices</div>
+      <div class="stat-desc">Familias, empresas y deportistas</div>
+    </div>
+    <div class="stat-box" data-aos="fade-up" data-aos-delay="200">
+      <div class="stat-num-wrap">
+        <span class="stat-num counter" data-target="80">0</span>
+        <span class="stat-suffix">+</span>
+      </div>
+      <div class="stat-label">Destinos</div>
+      <div class="stat-desc">En 5 continentes</div>
+    </div>
+    <div class="stat-box" data-aos="fade-up" data-aos-delay="300">
+      <div class="stat-num-wrap">
+        <span class="stat-num counter" data-target="100">0</span>
+        <span class="stat-suffix">%</span>
+      </div>
+      <div class="stat-label">Satisfacción</div>
+      <div class="stat-desc">Garantía de excelencia</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EXPERIENCIAS ═══════════ -->
+<section id="experiencias">
+  <div class="exp-header" data-aos="fade-up">
+    <div class="sec-label" style="color:var(--gold)">Experiencias exclusivas</div>
+    <h2 class="sec-title light">No son destinos. Son <em>emociones</em>.</h2>
+  </div>
+
+  <div class="exp-grid" data-aos="fade-up" data-aos-delay="100">
+    <div th:each="exp : ${experiencias}"
+         th:classappend="${exp.featured} ? ' featured' : ''"
+         class="exp-card">
+
+      <!-- Imagen de Cloudinary o fallback -->
+      <div class="exp-img"
+           th:style="${exp.imagenUrl != null}
+             ? 'background-image:url(' + ${exp.imagenUrl} + ')'
+             : 'background-image:url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=80)'">
+      </div>
+
+      <div class="exp-overlay">
+        <!-- ✦ Destino · Categoría -->
+        <div class="exp-cat">
+          ✦
+          <span th:text="${exp.destino}">Destino</span>
+          ·
+          <span th:text="${exp.categoria}">Categoría</span>
+        </div>
+
+        <div class="exp-title" th:text="${exp.nombre}">Nombre</div>
+
+        <div class="exp-desc" th:text="${exp.descripcion}">Descripción</div>
+
+        <a href="#"
+           class="btn-sonar"
+           th:attr="data-wa-msg=${exp.waMensaje != null} ? ${exp.waMensaje} : 'Quiero información sobre ' + ${exp.nombre}"
+           target="_blank">
+          <i class="fas fa-paper-plane"></i> Soñar este viaje
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-banner" data-aos="fade-up">
+    <h3>¿Ninguna experiencia se ajusta a tus <em>sueños</em>?<br>Diseñamos tu viaje único.</h3>
+    <a href="#" class="btn-gold"
+       data-wa-msg="Quiero diseñar mi experiencia única con Niagara Viajes"
+       target="_blank">
+      <i class="fas fa-pencil-alt"></i> Crear mi experiencia
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════ ALIADOS ═══════════ -->
+<section id="aliados">
+  <div class="aliados-header" data-aos="fade-up">
+    <div class="sec-label">Nuestros aliados estratégicos</div>
+    <h2 class="sec-title" style="text-align:center">Una <em>red de confianza</em> global</h2>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-fade-l"></div>
+    <div class="carousel-track">
+      <!-- Con imagen local: th:src="@{/img/aliados/julia-travel.png}" -->
+       <div class="partner-chip">
+        <img th:src="@{/img/aliados/aeromexico.webp}"
+             onerror="this.style.display='none'"
+             alt="AeroMexico">
+        <span class="partner-name">Aeroméxico</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/viva.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">VivaAerobus</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/Euromundo.png}"
+             onerror="this.style.display='none'"
+             alt="Julia Travel">
+        <span class="partner-name">Euromundo</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/celebritycruises.webp}"
+             onerror="this.style.display='none'"
+             alt="Mega Travel">
+        <span class="partner-name">Mega Travel</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/xcaret.png}"
+             onerror="this.style.display='none'"
+             alt="Xcaret">
+        <span class="partner-name">Xcaret</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/royalcaribean.png}"
+             onerror="this.style.display='none'"
+             alt="Royal Caribbean">
+        <span class="partner-name">Royal Caribbean</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/volaris.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">Volaris</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/city-express.webp}"
+             onerror="this.style.display='none'"
+             alt="Norwegian Cruise">
+        <span class="partner-name">City Express</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/posadas.webp}"
+             onerror="this.style.display='none'"
+             alt="Marriott Bonvoy">
+        <span class="partner-name">Posadas</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/avis.webp}"
+             onerror="this.style.display='none'"
+             alt="Aeroméxico">
+        <span class="partner-name">Avis</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/hertz.webp}"
+             onerror="this.style.display='none'"
+             alt="United Airlines">
+        <span class="partner-name">hertz</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/julia.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">Julia-Travels</span>
+      </div>
+      <!-- duplicar para loop continuo -->
+        <div class="partner-chip">
+        <img th:src="@{/img/aliados/aeromexico.webp}"
+             onerror="this.style.display='none'"
+             alt="AeroMexico">
+        <span class="partner-name">Aeroméxico</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/viva.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">VivaAerobus</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/Euromundo.png}"
+             onerror="this.style.display='none'"
+             alt="Julia Travel">
+        <span class="partner-name">Euromundo</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/celebritycruises.webp}"
+             onerror="this.style.display='none'"
+             alt="Mega Travel">
+        <span class="partner-name">Mega Travel</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/xcaret.png}"
+             onerror="this.style.display='none'"
+             alt="Xcaret">
+        <span class="partner-name">Xcaret</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/royalcaribean.png}"
+             onerror="this.style.display='none'"
+             alt="Royal Caribbean">
+        <span class="partner-name">Royal Caribbean</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/volaris.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">Volaris</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/city-express.webp}"
+             onerror="this.style.display='none'"
+             alt="Norwegian Cruise">
+        <span class="partner-name">City Express</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/posadas.webp}"
+             onerror="this.style.display='none'"
+             alt="Marriott Bonvoy">
+        <span class="partner-name">Posadas</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/avis.webp}"
+             onerror="this.style.display='none'"
+             alt="Aeroméxico">
+        <span class="partner-name">Avis</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/hertz.webp}"
+             onerror="this.style.display='none'"
+             alt="United Airlines">
+        <span class="partner-name">hertz</span>
+      </div>
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/julia.webp}"
+             onerror="this.style.display='none'"
+             alt="Iberia">
+        <span class="partner-name">Julia-Travels</span>
+      </div>
+    </div>
+    <div class="carousel-fade-r"></div>
+  </div>
+</section>
+<!-- ═══════════ NOSOTROS ═══════════ -->
+<section id="nosotros">
+  <div class="nosotros-grid">
+    <div class="nosotros-text" data-aos="fade-right">
+      <div class="sec-label">Sobre nosotros</div>
+      <h2 class="sec-title">35 años haciendo<br>realidad <em>sueños</em></h2>
+      <p>Somos una agencia boutique especializada en grupos de lujo, corporativos y deportivos. Nuestra fortaleza está en el diseño y en la ejecución impecable de cada experiencia.</p>
+      <ul class="ventajas">
+        <li><div class="v-dot"><i class="fas fa-check"></i></div><span><strong>Coordinación impecable</strong> — Una red de proveedores cuidadosamente seleccionados.</span></li>
+        <li><div class="v-dot"><i class="fas fa-check"></i></div><span><strong>Ejecución precisa</strong> — Cada logística, por compleja que sea, ejecutada con exactitud.</span></li>
+        <li><div class="v-dot"><i class="fas fa-check"></i></div><span><strong>Servicio anticipado</strong> — Anticipamos necesidades antes de que aparezcan.</span></li>
+        <li><div class="v-dot"><i class="fas fa-check"></i></div><span><strong>Financiamiento flexible</strong> — Plan de pagos adaptado sin comprometer la calidad.</span></li>
+      </ul>
+    </div>
+    <div data-aos="fade-left" data-aos-delay="100">
+      <div class="nosotros-card">
+        <h3>Un aliado estratégico,<br>no solo un proveedor</h3>
+        <p>Trabajamos de la mano con empresas y organizaciones que buscan más que un precio: un aliado capaz de representar su visión.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+          <div style="text-align:center">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold-light);display:block;line-height:1">35+</span>
+            <span style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)">Años</span>
+          </div>
+          <div style="text-align:center">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold-light);display:block;line-height:1">5K+</span>
+            <span style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)">Viajeros</span>
+          </div>
+          <div style="text-align:center">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold-light);display:block;line-height:1">80+</span>
+            <span style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)">Destinos</span>
+          </div>
+          <div style="text-align:center">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold-light);display:block;line-height:1">3</span>
+            <span style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)">Especialidades</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TESTIMONIOS ═══════════ -->
+<section id="testimonios">
+  <div class="test-header" data-aos="fade-up">
+    <div class="sec-label">Testimonios</div>
+    <h2 class="sec-title" style="text-align:center">
+      Lo que dicen quienes <em>viajaron con nosotros</em>
+    </h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card"
+         th:each="t, iter : ${testimonios}"
+         data-aos="fade-up"
+         th:attr="data-aos-delay=${iter.index * 150}">
+
+      <div class="stars" th:text="${t.estrellasStr}">★★★★★</div>
+
+      <blockquote>
+        <span th:text="'❝ ' + ${t.texto} + ' ❞'">"Testimonio..."</span>
+      </blockquote>
+
+      <div class="test-author">
+        <div class="test-av" th:text="${t.inicial}">P</div>
+        <div>
+          <div class="test-name" th:text="${t.nombre}">Nombre</div>
+          <div class="test-dest"
+               th:if="${t.viaje != null and !#strings.isEmpty(t.viaje)}"
+               th:text="'✦ ' + ${t.viaje}">✦ Viaje</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AGENDA ═══════════ -->
+<section id="agenda">
+  <div class="agenda-inner">
+    <div class="agenda-left" data-aos="fade-right">
+      <div class="sec-label" style="color:var(--gold)">Comencemos</div>
+      <h2 class="sec-title light">Agenda una reunión<br>con nuestro <em>equipo</em></h2>
+      <p>Cuéntanos tu sueño. Nuestros especialistas diseñarán una experiencia completamente a tu medida, sin compromiso.</p>
+      <div class="biz-info">
+        <div class="biz-row">
+          <i class="fas fa-phone"></i>
+          <a id="agenda-tel" href="#">+52 1 562 398 1020</a>
+        </div>
+        <div class="biz-row">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:ventaspedregal@niagaraviajes.com">ventaspedregal@niagaraviajes.com</a>
+        </div>
+        <div class="biz-row" style="align-items:flex-start">
+          <i class="fas fa-clock" style="margin-top:.15rem"></i>
+          <div class="biz-hours">
+            <span><b>Lun – Vie</b> &nbsp;9:00 am – 7:00 pm</span>
+            <span><b>Sábado</b> &nbsp;&nbsp;&nbsp;10:00 am – 3:00 pm</span>
+            <span style="color:rgba(255,255,255,.35)">Domingo — Cerrado</span>
+          </div>
+        </div>
+      </div>
+      <div class="social-row">
+        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="soc-btn" href="#" target="_blank" data-wa><i class="fab fa-whatsapp"></i></a>
+        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    <div data-aos="fade-left" data-aos-delay="100">
+      <div class="agenda-card">
+        <h3>Selecciona fecha y hora</h3>
+        <p>Reunión de 30 min por videollamada o en nuestra oficina</p>
+        <div class="cal-header">
+          <span class="cal-title" id="calTitle"></span>
+          <div class="cal-nav">
+            <button class="cal-btn" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="cal-btn" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div id="slotsSection" style="display:none">
+          <div class="slots-label">Horarios disponibles — <span id="selectedDateLabel"></span></div>
+          <div class="slots-grid" id="slotsGrid"></div>
+        </div>
+        <div id="formSection" style="display:none">
+          <div class="form-row">
+            <div class="form-group"><label>Nombre</label><input type="text" id="fNombre" placeholder="Tu nombre"></div>
+            <div class="form-group"><label>Apellido</label><input type="text" id="fApellido" placeholder="Tu apellido"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Teléfono / WhatsApp</label><input type="tel" id="fTel" placeholder="+52 55 0000 0000"></div>
+            <div class="form-group"><label>Correo electrónico</label><input type="email" id="fEmail" placeholder="tu@email.com"></div>
+          </div>
+          <div class="form-group">
+            <label>Tipo de viaje</label>
+            <select id="fTipo">
+              <option value="">Selecciona una opción</option>
+              <option>Leisure — Pareja / Familia</option>
+              <option>Grupo de Lujo</option>
+              <option>Corporativo / Team Building</option>
+              <option>Deportivo</option>
+              <option>Crucero</option>
+              <option>Luna de Miel</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Modalidad de reunión</label>
+            <select id="fModal">
+              <option>Videollamada (Google Meet / Zoom)</option>
+              <option>En oficina (Pedregal, CDMX)</option>
+              <option>Por teléfono</option>
+            </select>
+          </div>
+          <button class="btn-agendar" onclick="confirmarCita()">
+            <i class="fas fa-calendar-check"></i> Confirmar reunión por WhatsApp
+          </button>
+        </div>
+        <div class="booking-confirm" id="confirmSection">
+          <div class="confirm-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="confirm-title">¡Reunión solicitada!</div>
+          <p class="confirm-text">Te hemos redirigido a WhatsApp. Un especialista te confirmará tu cita en menos de 24 horas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script th:src="@{/js/niagara.js}"></script>
+
+</body>
+</html>

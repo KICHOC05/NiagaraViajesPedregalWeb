@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="footer">
+
+  <!-- WHATSAPP FAB -->
+  <a id="wa-fab" href="#" class="wa-fab" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img th:src="@{/img/logo-niagara.png}" alt="Niagara Viajes Pedregal" class="footer-logo-img"
+             onerror="this.style.display='none'">
+        <div class="wordmark">Niagara Viajes Pedregal</div>
+        <div class="sub">Leisure · Grupos · Corporativo · Deportivo</div>
+        <p>Diseñamos experiencias que despiertan el deseo de descubrir, sentir y recordar para siempre.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Especialidades</h4>
+        <a href="#">Grupos de Lujo</a>
+        <a href="#">Corporativo</a>
+        <a href="#">Deportivo</a>
+        <a href="#">Leisure</a>
+        <a href="#">Cruceros</a>
+      </div>
+      <div class="footer-col">
+  <h4>Empresa</h4>
+  <a href="#nosotros">Sobre Nosotros</a>
+  <a href="#aliados">Aliados</a>
+  <a href="#testimonios">Testimonios</a>
+  <a href="#agenda">Contacto</a>
+  <a th:href="@{/privacidad}">Aviso de Privacidad</a>
+</div>
+     <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+        <a id="footer-tel" href="tel:+5215623981020">+52 1 56 2398 1020</a>
+        <a href="mailto:ventaspedregal@niagaraviajes.com">ventaspedregal@niagaraviajes.com</a>
+      <span>Lun–Vie 9am–7pm</span>
+    </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Niagara Viajes Pedregal · Todos los derechos reservados</span>
+      <div class="footer-socials">
+        <a class="footer-soc" href="https://www.facebook.com/NiagaraViajesPedregal"><i class="fab fa-facebook-f"></i></a>
+        <a class="footer-soc" href="https://www.instagram.com/niagara_viajes_pedregal/"><i class="fab fa-instagram"></i></a>
+        <a class="footer-soc" id="footer-wa" href="https://wa.me/5215623981020?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </footer>
+
+</th:block>
+</body>
+</html>

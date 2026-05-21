@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${accion == 'crear'} ? 'Nuevo Paquete' : 'Editar Paquete'">Paquete</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <style>
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .form-field {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-field label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-field label i {
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--gray);
+      margin-top: 0.35rem;
+    }
+
+    .field-hint a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .field-hint a:hover {
+      text-decoration: underline;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--bg-light);
+      position: relative;
+    }
+
+    .upload-zone:hover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .upload-zone.drag {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .upload-zone.has-img {
+      padding: 0;
+    }
+
+    .upload-zone-content i {
+      font-size: 2.5rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-zone-content p {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .upload-zone-content p span {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .upload-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .img-current {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--bg-light);
+      border-radius: 12px;
+    }
+
+    .img-current img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .img-current-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .img-current-label i {
+      color: #10b981;
+    }
+
+    /* Toggle switch */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--gold);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .toggle-label {
+      font-size: 0.85rem;
+      color: var(--dark);
+    }
+
+    /* Badges preview */
+    .badges-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .svc-badge {
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* Preview card — estilo experiencia */
+    .exp-card-preview {
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-height: 260px;
+      background: #111;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .exp-card-preview .exp-img-prev {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: .55;
+      transition: opacity .3s;
+    }
+
+    .exp-card-preview .exp-overlay-prev {
+      position: relative;
+      z-index: 2;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      height: 100%;
+      min-height: 260px;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 60%);
+    }
+
+    .exp-cat-prev {
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold, #d4af37);
+    }
+
+    .exp-title-prev {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .exp-desc-prev {
+      font-size: .78rem;
+      color: rgba(255,255,255,.7);
+      line-height: 1.5;
+    }
+
+    .exp-btn-prev {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .72rem;
+      color: var(--gold, #d4af37);
+      border: 1px solid var(--gold, #d4af37);
+      border-radius: 40px;
+      padding: .35rem .9rem;
+      width: fit-content;
+      margin-top: .25rem;
+    }
+
+    /* Section divider */
+    .form-section-divider {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin: 1.75rem 0 1.25rem;
+    }
+
+    .form-section-divider span {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      white-space: nowrap;
+    }
+
+    .form-section-divider::before,
+    .form-section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Sticky preview */
+    .sticky-preview {
+      position: sticky;
+      top: 1rem;
+    }
+
+    /* Form actions */
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-sm.primary {
+      background: var(--gold);
+      color: white;
+    }
+
+    .btn-sm.primary:hover {
+      background: #b8942e;
+      transform: translateY(-2px);
+    }
+
+    .btn-sm.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dark);
+    }
+
+    .btn-sm.outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    @media (max-width: 900px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .sticky-preview {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <a th:href="@{/dashboard}" class="topbar-brand">
+    <img th:src="@{/img/logo-niagara.png}" alt="NVP" onerror="this.style.display='none'">
+    <span>Niagara Viajes</span>
+  </a>
+  <button class="topbar-menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars" id="topbarIcon"></i>
+  </button>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="dash-layout">
+  <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+  <main class="dash-main">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 th:text="${accion == 'crear'} ? 'Nueva Experiencia' : 'Editar Experiencia'">Experiencia</h1>
+        <p>Los cambios se reflejan en tiempo real en el sitio público</p>
+      </div>
+      <div class="page-breadcrumb">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <span>/</span>
+        <a th:href="@{/dashboard/paquetes}">Experiencias</a>
+        <span>/</span>
+        <span th:text="${accion == 'crear'} ? 'Nueva' : 'Editar'">-</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="dash-alert error" th:if="${error}">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}"></span>
+      </div>
+
+      <div class="form-grid">
+
+        <!-- ── Formulario principal ── -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>Información de la experiencia</h3>
+            <span class="card-label">Formulario</span>
+          </div>
+          <div class="dash-card-body">
+            <form th:action="${accion == 'crear'} ?
+                            @{/dashboard/paquetes/nuevo} :
+                            @{/dashboard/paquetes/{id}/editar(id=${paquete.id})}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  id="paqueteForm">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+              <!-- ── SECCIÓN: Contenido principal ── -->
+              <div class="form-section-divider"><span>Contenido principal</span></div>
+
+              <div class="form-field">
+                <label><i class="fas fa-tag"></i> Título de la experiencia</label>
+                <input type="text" name="nombre"
+                       th:value="${paquete?.nombre}"
+                       placeholder="Ej: Riviera Maya Secreta"
+                       maxlength="100" required
+                       oninput="updatePreview()">
+              </div>
+
+              <div class="form-field">
+                <label><i class="fas fa-align-left"></i> Descripción</label>
+                <textarea name="descripcion" rows="3"
+                          maxlength="500"
+                          placeholder="Descripción breve de la experiencia..."
+                          oninput="updatePreview()"
+                          th:text="${paquete?.descripcion}"></textarea>
+                <span class="field-hint">Máximo 500 caracteres</span>
+              </div>
+
+              <!-- Destino y Categoría -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-field">
+                  <label><i class="fas fa-map-marker-alt"></i> Destino</label>
+                  <input type="text" name="destino"
+                         th:value="${paquete?.destino}"
+                         placeholder="Ej: Quintana Roo, Suiza, Japón"
+                         maxlength="100"
+                         oninput="updatePreview()">
+                  <span class="field-hint">País, región o zona del destino</span>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-layer-group"></i> Categoría</label>
+                  <input type="text" name="categoria"
+                         th:value="${paquete?.categoria}"
+                         placeholder="Ej: Leisure, Grupos de Lujo"
+                         maxlength="100"
+                         oninput="updatePreview()">
+                  <span class="field-hint">Tipo de experiencia o viajero</span>
+                </div>
+              </div>
+
+              <!-- ── SECCIÓN: Configuración ── -->
+              <div class="form-section-divider"><span>Configuración</span></div>
+
+              <div class="form-field">
+                <label><i class="fab fa-whatsapp"></i> Mensaje WhatsApp</label>
+                <input type="text" name="waMensaje"
+                       th:value="${paquete?.waMensaje}"
+                       placeholder="Ej: Quiero soñar el viaje: Riviera Maya Secreta"
+                       maxlength="300">
+                <span class="field-hint">Texto pre-cargado al hacer clic en "Soñar este viaje". Si se deja vacío, se usa el título automáticamente.</span>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-field">
+                  <label><i class="fas fa-sort-numeric-up"></i> Orden de aparición</label>
+                  <input type="number" name="orden"
+                         th:value="${paquete?.orden} ?: 0"
+                         min="0" max="99" placeholder="0">
+                  <span class="field-hint">Número menor aparece primero</span>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-icons"></i> Ícono FontAwesome</label>
+                  <input type="text" name="icono"
+                         th:value="${paquete?.icono} ?: 'fas fa-globe'"
+                         placeholder="fas fa-map-marked-alt"
+                         oninput="updatePreview()">
+                  <span class="field-hint">
+                    <a href="https://fontawesome.com/icons" target="_blank">
+                      Ver íconos <i class="fas fa-external-link-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label><i class="fas fa-tags"></i> Badges / etiquetas</label>
+                <input type="text" name="badges"
+                       th:value="${paquete?.badges}"
+                       placeholder="Leisure,Grupos (separados por coma)"
+                       oninput="updateBadges()">
+                <div class="badges-preview" id="badgesPreview"></div>
+              </div>
+
+              <!-- ── SECCIÓN: Imagen ── -->
+              <div class="form-section-divider"><span>Imagen</span></div>
+
+              <div class="form-field">
+                <label><i class="fas fa-image"></i> Imagen de la experiencia</label>
+
+                <div th:if="${paquete?.imagenUrl != null}" class="img-current" id="currentImg">
+                  <img th:src="${paquete.imagenUrl}" alt="Imagen actual">
+                  <span class="img-current-label">
+                    <i class="fas fa-check-circle"></i> Imagen actual
+                    (sube una nueva para reemplazarla)
+                  </span>
+                </div>
+
+                <div class="upload-zone" id="uploadZone"
+                     onclick="document.getElementById('imagenInput').click()"
+                     ondragover="event.preventDefault();this.classList.add('drag')"
+                     ondragleave="this.classList.remove('drag')"
+                     ondrop="handleDrop(event)">
+                  <div class="upload-zone-content" id="uploadContent">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Arrastra una imagen o <span>haz clic para seleccionar</span></p>
+                    <small>JPG, PNG, WebP — máx. 5MB</small>
+                  </div>
+                  <img id="imgPreview" class="upload-preview" style="display:none" alt="Preview">
+                </div>
+                <input type="file" id="imagenInput" name="imagen"
+                       accept="image/*" style="display:none"
+                       onchange="previewImg(this)">
+              </div>
+
+              <!-- ── SECCIÓN: Estado ── -->
+              <div class="form-section-divider"><span>Estado y visibilidad</span></div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-field" th:if="${accion == 'editar'}">
+                  <label><i class="fas fa-toggle-on"></i> Visibilidad</label>
+                  <div class="toggle-wrap">
+                    <label class="toggle-switch">
+                      <input type="checkbox" name="activo" th:checked="${paquete?.activo}">
+                      <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Visible en el sitio público</span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label><i class="fas fa-star"></i> Destacada (card grande)</label>
+                  <div class="toggle-wrap">
+                    <label class="toggle-switch">
+                      <input type="checkbox" name="featured" th:checked="${paquete?.featured}"
+                             onchange="updateFeaturedPreview(this.checked)">
+                      <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Aparece como experiencia principal</span>
+                  </div>
+                  <span class="field-hint" style="margin-top:.5rem">Solo una experiencia puede ser destacada a la vez</span>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-sm primary">
+                  <i class="fas fa-save"></i>
+                  <span th:text="${accion == 'crear'} ? 'Crear experiencia' : 'Guardar cambios'">Guardar</span>
+                </button>
+                <a th:href="@{/dashboard/paquetes}" class="btn-sm outline">
+                  <i class="fas fa-times"></i> Cancelar
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ── Preview en vivo ── -->
+        <div class="sticky-preview">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3>Vista previa</h3>
+              <span class="card-label" id="previewBadgeFeatured">Normal</span>
+            </div>
+            <div class="dash-card-body">
+
+              <div class="exp-card-preview" id="cardPreview">
+                <div class="exp-img-prev" id="previewBg"
+                     style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80')">
+                </div>
+                <div class="exp-overlay-prev">
+                  <div class="exp-cat-prev" id="previewCat">✦ Destino · Categoría</div>
+                  <div class="exp-title-prev" id="previewNombre">Título de la experiencia</div>
+                  <div class="exp-desc-prev" id="previewDesc">La descripción aparecerá aquí...</div>
+                  <div class="exp-btn-prev">
+                    <i class="fas fa-paper-plane"></i> Soñar este viaje
+                  </div>
+                </div>
+              </div>
+
+              <p style="font-size:.7rem;color:var(--gray);margin-top:1rem;text-align:center">
+                <i class="fas fa-info-circle"></i>
+                Así se verá en la sección Experiencias
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script th:src="@{/js/dashboard.js}"></script>
+<script>
+  function updatePreview() {
+    const nombre   = document.querySelector('[name="nombre"]')?.value    || 'Título de la experiencia';
+    const desc     = document.querySelector('[name="descripcion"]')?.value || 'La descripción aparecerá aquí...';
+    const destino  = document.querySelector('[name="destino"]')?.value   || 'Destino';
+    const cat      = document.querySelector('[name="categoria"]')?.value || 'Categoría';
+
+    document.getElementById('previewNombre').textContent = nombre;
+    document.getElementById('previewDesc').textContent   = desc;
+    document.getElementById('previewCat').textContent    = `✦ ${destino} · ${cat}`;
+  }
+
+  function updateBadges() {
+    const val     = document.querySelector('[name="badges"]')?.value || '';
+    const preview = document.getElementById('badgesPreview');
+    const parts   = val.split(',').map(s => s.trim()).filter(Boolean);
+    preview.innerHTML = parts.map(b => `<span class="svc-badge">${b}</span>`).join('');
+  }
+
+  function updateFeaturedPreview(checked) {
+    const badge = document.getElementById('previewBadgeFeatured');
+    const card  = document.getElementById('cardPreview');
+    if (checked) {
+      badge.textContent = '★ Destacada';
+      badge.style.color = 'var(--gold)';
+      card.style.minHeight = '340px';
+    } else {
+      badge.textContent = 'Normal';
+      badge.style.color = '';
+      card.style.minHeight = '260px';
+    }
+  }
+
+  function previewImg(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      alert('La imagen no debe superar 5MB.');
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      // Actualiza el preview de la card experiencia
+      document.getElementById('previewBg').style.backgroundImage = `url(${e.target.result})`;
+      // Actualiza la zona de upload
+      const prev = document.getElementById('imgPreview');
+      const cont = document.getElementById('uploadContent');
+      prev.src           = e.target.result;
+      prev.style.display = 'block';
+      cont.style.display = 'none';
+      document.getElementById('uploadZone').classList.add('has-img');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('uploadZone').classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      const input = document.getElementById('imagenInput');
+      input.files = dt.files;
+      previewImg(input);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updatePreview();
+    updateBadges();
+    // Inicializar estado featured si viene de editar
+    const featuredCb = document.querySelector('[name="featured"]');
+    if (featuredCb) updateFeaturedPreview(featuredCb.checked);
+    // Si hay imagen actual, mostrarla en el preview de card
+    const currentImg = document.querySelector('.img-current img');
+    if (currentImg) {
+      document.getElementById('previewBg').style.backgroundImage =
+        `url(${currentImg.src})`;
+    }
+  });
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const icon    = document.getElementById('topbarIcon');
+    const open    = sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active', open);
+    icon.className = open ? 'fas fa-times' : 'fas fa-bars';
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+    document.getElementById('topbarIcon').className = 'fas fa-bars';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070d1a">
+  <title>Iniciar Sesión — Niagara Viajes Pedregal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<div class="login-page">
+
+  <!-- ══ PANEL IZQUIERDO / HERO MOBILE ══ -->
+  <div class="login-hero">
+    <div class="login-hero-content">
+
+      <!-- Marca -->
+      <a th:href="@{/}" class="login-brand">
+        <img th:src="@{/img/logo-niagara.png}"
+             alt="Niagara Viajes Pedregal"
+             class="login-brand-img"
+             onerror="this.style.display='none';
+                      this.nextElementSibling.style.display='block'">
+        <span class="login-brand-fallback">NVP</span>
+        <span class="login-brand-text">
+          <span class="wm">Niagara Viajes Pedregal</span>
+          <span class="st">Experiencias de Lujo</span>
+        </span>
+      </a>
+
+      <!-- Título visible en mobile y desktop -->
+      <h1>Bienvenido <em>de vuelta</em></h1>
+    </div>
+
+    <!-- Solo desktop -->
+    <div class="login-quote-bottom" style="position:relative;z-index:2">
+      <blockquote class="login-quote-desktop" style="display:none">
+        "Un gran viaje no solo se recuerda… se convierte en referencia."
+      </blockquote>
+      <div class="login-badges" style="display:none">
+        <span>✦ Leisure</span>
+        <span>✦ Corporativo</span>
+        <span>✦ Deportivo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL DERECHO / FORMULARIO ══ -->
+  <div class="login-form-panel">
+
+    <div class="login-card-header">
+      <h2>Iniciar sesión</h2>
+      <p>Ingresa tus credenciales para continuar</p>
+    </div>
+
+    <!-- Alertas -->
+    <div class="login-alert error"
+         th:if="${error}" th:text="${error}"></div>
+    <div class="login-alert success"
+         th:if="${success}" th:text="${success}"></div>
+    <div class="login-alert info"
+         th:if="${logout}" th:text="${logout}"></div>
+
+    <!-- Formulario -->
+    <form th:action="@{/login}" method="post"
+          id="loginForm" autocomplete="on" novalidate>
+      <input type="hidden"
+             th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}">
+
+      <div class="login-field">
+        <label for="email">
+          <i class="fas fa-envelope"></i> Correo electrónico
+        </label>
+        <input type="email" id="email" name="email"
+               placeholder="tu@email.com"
+               autocomplete="email"
+               inputmode="email"
+               required>
+      </div>
+
+      <div class="login-field">
+        <label for="password">
+          <i class="fas fa-lock"></i> Contraseña
+        </label>
+        <div class="pw-wrap">
+          <input type="password" id="password" name="password"
+                 placeholder="••••••••"
+                 autocomplete="current-password"
+                 required>
+          <button type="button" class="pw-toggle"
+                  id="togglePwBtn"
+                  aria-label="Mostrar contraseña">
+            <i class="fas fa-eye" id="pwIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="login-options">
+        <label class="remember-label">
+          <input type="checkbox" name="remember-me">
+          <span>Recordarme 7 días</span>
+        </label>
+        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn-login" id="btnLogin">
+        <span class="btn-text">
+          <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+        </span>
+        <span class="btn-loading" style="display:none">
+          <i class="fas fa-spinner fa-spin"></i> Verificando...
+        </span>
+      </button>
+    </form>
+
+    <div class="login-divider"><span>¿No tienes cuenta?</span></div>
+
+    <a th:href="@{/registro}" class="btn-register">
+      <i class="fas fa-user-plus"></i> Crear cuenta nueva
+    </a>
+
+    <a th:href="@{/}" class="login-back">
+      <i class="fas fa-arrow-left"></i> Volver al inicio
+    </a>
+
+  </div><!-- /login-form-panel -->
+</div><!-- /login-page -->
+
+<script>
+  // Toggle contraseña
+  document.getElementById('togglePwBtn').addEventListener('click', function() {
+    const input = document.getElementById('password');
+    const icon  = document.getElementById('pwIcon');
+    const show  = input.type === 'password';
+    input.type     = show ? 'text' : 'password';
+    icon.className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
+  });
+
+  // Loading state al enviar
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email').value.trim();
+    const pw    = document.getElementById('password').value;
+    if (!email || !pw) { e.preventDefault(); return; }
+    document.querySelector('.btn-text').style.display    = 'none';
+    document.querySelector('.btn-loading').style.display = 'inline-flex';
+    document.getElementById('btnLogin').disabled = true;
+  });
+</script>
+</body>
+</html>

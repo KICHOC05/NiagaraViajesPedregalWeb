@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiencias — Niagara Viajes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <style>
+    /* ============================================
+       ESTILOS ADICIONALES PARA GESTIÓN DE EXPERIENCIAS
+       ============================================ */
+
+    /* Grid de experiencias */
+    .paquetes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Card de experiencia */
+    .paquete-admin-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .paquete-admin-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Imagen */
+    .pac-img-wrap {
+      position: relative;
+      height: 200px;
+      background: #f8f9fa;
+      overflow: hidden;
+    }
+
+    .pac-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .paquete-admin-card:hover .pac-img {
+      transform: scale(1.05);
+    }
+
+    .pac-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    }
+
+    .pac-img-placeholder i {
+      font-size: 4rem;
+      color: var(--gray);
+      opacity: 0.4;
+    }
+
+    /* Status badge */
+    .pac-status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+    }
+
+    .pac-status-badge.active {
+      background: rgba(16, 185, 129, 0.9);
+    }
+
+    .pac-status-badge.inactive {
+      background: rgba(239, 68, 68, 0.9);
+    }
+
+    /* Featured badge */
+    .featured-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(212, 175, 55, 0.95);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+
+    /* Cuerpo de la card */
+    .pac-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    /* Header con ícono y título */
+    .pac-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .pac-icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: rgba(212, 175, 55, 0.12);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .pac-icon-wrap i {
+      font-size: 1.4rem;
+      color: var(--gold);
+    }
+
+    .pac-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0 0 0.2rem 0;
+      color: var(--dark);
+    }
+
+    .pac-destino {
+      font-size: 0.72rem;
+      color: var(--gray);
+      margin-top: 0.2rem;
+      line-height: 1.4;
+    }
+
+    .pac-destino i {
+      font-size: 0.6rem;
+      margin-right: 0.2rem;
+    }
+
+    .pac-orden {
+      font-size: 0.7rem;
+      color: var(--gray);
+      display: inline-block;
+      margin-top: 0.25rem;
+    }
+
+    .pac-orden strong {
+      color: var(--gold);
+    }
+
+    /* Descripción */
+    .pac-desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--gray);
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Mensaje WhatsApp */
+    .wa-message {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.7rem;
+      color: var(--gray);
+      background: rgba(37, 211, 102, 0.08);
+      border-radius: 10px;
+      padding: 0.5rem 0.7rem;
+      line-height: 1.4;
+    }
+
+    .wa-message i {
+      color: #25d366;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    /* Badges */
+    .pac-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .svc-badge {
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* Acciones */
+    .pac-actions {
+      display: flex;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-light);
+      flex-wrap: wrap;
+    }
+
+    /* Botones */
+    .btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-sm.primary {
+      background: var(--gold);
+      color: white;
+    }
+
+    .btn-sm.primary:hover {
+      background: #b8942e;
+      transform: translateY(-2px);
+    }
+
+    .btn-sm.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dark);
+    }
+
+    .btn-sm.outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm.danger {
+      background: transparent;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+
+    .btn-sm.danger:hover {
+      background: #ef4444;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Alertas */
+    .dash-alert {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+    }
+
+    .dash-alert.success {
+      background: rgba(16, 185, 129, 0.12);
+      border-left: 3px solid #10b981;
+      color: #065f46;
+    }
+
+    .dash-alert.error {
+      background: rgba(239, 68, 68, 0.12);
+      border-left: 3px solid #ef4444;
+      color: #991b1b;
+    }
+
+    .dash-alert i {
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .paquetes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .pac-actions {
+        flex-direction: column;
+      }
+
+      .pac-actions .btn-sm {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pac-body {
+        padding: 1rem;
+      }
+
+      .pac-actions {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <a th:href="@{/dashboard}" class="topbar-brand">
+    <img th:src="@{/img/logo-niagara.png}" alt="NVP" onerror="this.style.display='none'">
+    <span>Niagara Viajes</span>
+  </a>
+  <button class="topbar-menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars" id="topbarIcon"></i>
+  </button>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="dash-layout">
+  <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+  <main class="dash-main">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Gestión de <em>Experiencias</em></h1>
+        <p>Administra las experiencias mostradas en el sitio</p>
+      </div>
+      <a th:href="@{/dashboard/paquetes/nuevo}" class="btn-sm primary">
+        <i class="fas fa-plus"></i> Nueva experiencia
+      </a>
+    </div>
+
+    <div class="page-content">
+
+      <div class="dash-alert success" th:if="${success}">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}"></span>
+      </div>
+      <div class="dash-alert error" th:if="${error}">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}"></span>
+      </div>
+
+      <!-- Grid de experiencias tipo cards -->
+      <div class="paquetes-grid" th:if="${!#lists.isEmpty(paquetes)}">
+        <div class="paquete-admin-card" th:each="p : ${paquetes}">
+
+          <!-- Imagen o placeholder -->
+          <div class="pac-img-wrap">
+            <img th:if="${p.imagenUrl != null}"
+                 th:src="${p.imagenUrl}"
+                 th:alt="${p.nombre}"
+                 class="pac-img">
+            <div class="pac-img-placeholder" th:unless="${p.imagenUrl != null}">
+              <i class="fas fa-mountain-sun"></i>
+            </div>
+
+            <!-- Badge: Activo / Inactivo -->
+            <span class="pac-status-badge"
+                  th:classappend="${p.activo} ? ' active' : ' inactive'"
+                  th:text="${p.activo} ? 'Activo' : 'Inactivo'">Activo</span>
+
+            <!-- Badge: Destacada -->
+            <span th:if="${p.featured}" class="featured-badge">
+              <i class="fas fa-star"></i> Destacada
+            </span>
+          </div>
+
+          <div class="pac-body">
+            <div class="pac-header">
+              <div class="pac-icon-wrap">
+                <i th:class="${p.icono} ?: 'fas fa-globe'"></i>
+              </div>
+              <div>
+                <h3 class="pac-nombre" th:text="${p.nombre}">Nombre</h3>
+                <div class="pac-destino" th:if="${p.destino != null and !#strings.isEmpty(p.destino)}">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span th:text="${p.destino}"></span>
+                  <span th:if="${p.categoria != null and !#strings.isEmpty(p.categoria)}">
+                    &nbsp;· <span th:text="${p.categoria}"></span>
+                  </span>
+                </div>
+                <div class="pac-orden">Orden: <strong th:text="${p.orden}">0</strong></div>
+              </div>
+            </div>
+
+            <p class="pac-desc" th:text="${p.descripcion}">Descripción</p>
+
+            <!-- Mensaje WhatsApp (truncado) -->
+            <div th:if="${p.waMensaje != null and !#strings.isEmpty(p.waMensaje)}" class="wa-message">
+              <i class="fab fa-whatsapp"></i>
+              <span th:text="${#strings.abbreviate(p.waMensaje, 70)}"></span>
+            </div>
+
+            <div class="pac-badges" th:if="${p.badges != null and !#strings.isEmpty(p.badges)}">
+              <span class="svc-badge" th:each="b : ${p.badgesArray}"
+                    th:text="${b.trim()}">Badge</span>
+            </div>
+          </div>
+
+          <div class="pac-actions">
+            <a th:href="@{/dashboard/paquetes/{id}/editar(id=${p.id})}"
+               class="btn-sm outline">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <form th:action="@{/dashboard/paquetes/{id}/toggle(id=${p.id})}"
+                  method="post" style="display:inline">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <button type="submit" class="btn-sm outline"
+                      th:style="${p.activo} ? 'color:var(--gold)' : 'color:#16a34a'"
+                      th:title="${p.activo} ? 'Desactivar' : 'Activar'">
+                <i th:class="${p.activo} ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                <span th:text="${p.activo} ? 'Ocultar' : 'Mostrar'">-</span>
+              </button>
+            </form>
+            <form th:action="@{/dashboard/paquetes/{id}/eliminar(id=${p.id})}"
+                  method="post" style="display:inline"
+                  onsubmit="return confirm('¿Eliminar esta experiencia? Esta acción eliminará también la imagen.')">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <button type="submit" class="btn-sm danger">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="dash-card" th:if="${#lists.isEmpty(paquetes)}">
+        <div class="dash-card-body" style="text-align:center;padding:4rem">
+          <i class="fas fa-mountain-sun"
+             style="font-size:3rem;color:var(--gray);opacity:.3;display:block;margin-bottom:1rem"></i>
+          <p style="color:var(--gray)">No hay experiencias aún.</p>
+          <a th:href="@{/dashboard/paquetes/nuevo}" class="btn-sm primary"
+             style="display:inline-flex;margin-top:1rem">
+            <i class="fas fa-plus"></i> Crear primera experiencia
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script th:src="@{/js/dashboard.js}"></script>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const icon = document.getElementById('topbarIcon');
+    const open = sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active', open);
+    icon.className = open ? 'fas fa-times' : 'fas fa-bars';
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar')?.classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay')?.classList.remove('active');
+    const icon = document.getElementById('topbarIcon');
+    if (icon) icon.className = 'fas fa-bars';
+  }
+</script>
+</body>
+</html>s

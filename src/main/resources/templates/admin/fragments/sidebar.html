@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="sidebar">
+
+  <!-- Overlay mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+
+    <a th:href="@{/dashboard}" class="sidebar-brand">
+      <img th:src="@{/img/logo-niagara.png}" alt="NVP"
+           class="sidebar-brand-img"
+           onerror="this.style.display='none'">
+      <span class="sidebar-brand-text">
+        <span class="wm">Niagara Viajes</span>
+        <span class="st">Panel Admin</span>
+      </span>
+    </a>
+
+    <nav class="sidebar-nav">
+
+      <div class="sidebar-section-title">Principal</div>
+      <a th:href="@{/dashboard}" class="nav-item"
+         th:classappend="${activePage == 'inicio'} ? ' active' : ''">
+        <i class="fas fa-home"></i>
+        <span class="sidebar-label">Inicio</span>
+      </a>
+
+      <div class="sidebar-section-title">Gestión</div>
+      <a th:href="@{/dashboard/usuarios}" class="nav-item"
+         th:classappend="${activePage == 'usuarios'} ? ' active' : ''">
+        <i class="fas fa-users"></i>
+        <span class="sidebar-label">Usuarios</span>
+      </a>
+      
+      <a th:href="@{/dashboard/paquetes}" class="nav-item"
+         th:classappend="${activePage == 'paquetes'} ? ' active' : ''">
+        <i class="fas fa-suitcase-rolling"></i>
+        <span class="sidebar-label">Paquetes</span>
+      </a>
+
+      <a th:href="@{/dashboard/testimonios}" class="nav-item"
+         th:classappend="${activePage == 'testimonios'} ? ' active' : ''">
+        <i class="fas fa-star"></i>
+        <span class="sidebar-label">Testimonios</span>
+      </a>
+
+      <div class="sidebar-section-title">Sistema</div>
+      <a th:href="@{/}" class="nav-item">
+        <i class="fas fa-globe"></i>
+        <span class="sidebar-label">Ver sitio</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="user-panel">
+        <div class="user-avatar"
+             th:text="${usuario?.nombre?.substring(0,1)?.toUpperCase()} ?: 'A'">A</div>
+        <div class="user-info-text">
+          <div class="u-name" th:text="${usuario?.nombre} ?: 'Admin'">Admin</div>
+          <div class="u-role" th:text="${usuario?.rol} ?: 'ROLE_ADMIN'">ROLE_ADMIN</div>
+        </div>
+      </div>
+      
+      <form th:action="@{/logout}" method="post" style="margin:0">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar sesión</span>
+        </button>
+      </form>
+      
+      <button class="sidebar-toggle" onclick="toggleCollapse()" id="collapseBtn">
+        <i class="fas fa-chevron-left" id="collapseIcon"></i>
+        <span class="sidebar-label">Colapsar</span>
+      </button>
+    </div>
+
+  </aside>
+
+</th:block>
+</body>
+</html>

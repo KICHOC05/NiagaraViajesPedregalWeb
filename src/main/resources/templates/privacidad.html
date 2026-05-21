@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso de Privacidad — Niagara Viajes Pedregal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/niagara.css}">
+  <style>
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .priv-hero {
+      background:
+        linear-gradient(160deg,
+          rgba(7,13,26,.92) 0%,
+          rgba(30,64,175,.48) 55%,
+          rgba(7,13,26,.84) 100%),
+        url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&q=80')
+        center / cover no-repeat;
+      padding: 9rem 5% 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .priv-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(
+        ellipse at 70% 50%,
+        rgba(201,151,58,.07) 0%,
+        transparent 60%
+      );
+    }
+    .priv-hero-inner {
+      position: relative; z-index: 1;
+      max-width: 720px;
+    }
+    .priv-eyebrow {
+      font-size: .62rem; letter-spacing: .35em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: .8rem;
+      margin-bottom: 1.2rem;
+    }
+    .priv-eyebrow::before {
+      content: ''; width: 28px; height: 1px;
+      background: var(--gold); flex-shrink: 0;
+    }
+    .priv-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 300; color: var(--white);
+      line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .priv-hero h1 em { font-style: italic; color: var(--gold-light); }
+    .priv-hero p {
+      font-size: .9rem; color: rgba(255,255,255,.62);
+      line-height: 1.8; max-width: 540px;
+    }
+    .priv-meta {
+      display: flex; align-items: center; gap: 2rem;
+      margin-top: 2rem; flex-wrap: wrap;
+    }
+    .priv-meta-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .73rem; color: rgba(255,255,255,.42);
+    }
+    .priv-meta-item i { color: var(--gold); font-size: .68rem; }
+
+    /* ══════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════ */
+    .priv-content {
+      background: var(--cream);
+      padding: 5rem 5% 6rem;
+    }
+    .priv-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 3.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* ══════════════════════════════════════════
+       ÍNDICE LATERAL (TOC)
+    ══════════════════════════════════════════ */
+    .priv-toc {
+      position: sticky; top: 5.5rem;
+      background: var(--white);
+      border-radius: 4px;
+      border: 1px solid rgba(30,64,175,.07);
+      overflow: hidden;
+    }
+    .priv-toc-head {
+      background: var(--navy);
+      padding: 1rem 1.3rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .priv-toc-head i { color: var(--gold); font-size: .78rem; }
+    .priv-toc-head span {
+      font-size: .65rem; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--white); font-weight: 500;
+    }
+    .priv-toc ul {
+      list-style: none; padding: .5rem 0;
+    }
+    .priv-toc ul li a {
+      display: flex; align-items: flex-start; gap: .6rem;
+      padding: .55rem 1.3rem;
+      font-size: .76rem; color: var(--gray);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      line-height: 1.4;
+      transition: all .25s;
+    }
+    .priv-toc ul li a i {
+      font-size: .62rem; color: rgba(201,151,58,.45);
+      width: 12px; flex-shrink: 0; margin-top: .2rem;
+    }
+    .priv-toc ul li a:hover {
+      color: var(--navy);
+      border-left-color: var(--gold);
+      background: rgba(201,151,58,.04);
+      padding-left: 1.55rem;
+    }
+    .priv-toc-foot {
+      padding: .9rem 1.3rem;
+      border-top: 1px solid rgba(30,64,175,.06);
+    }
+    .priv-toc-foot a {
+      display: flex; align-items: center; gap: .45rem;
+      font-size: .73rem; color: var(--blue);
+      text-decoration: none; transition: color .25s;
+    }
+    .priv-toc-foot a:hover { color: var(--gold); }
+
+    /* ══════════════════════════════════════════
+       ARTÍCULO / SECCIONES
+    ══════════════════════════════════════════ */
+    .priv-article { min-width: 0; }
+
+    .priv-section {
+      background: var(--white);
+      border-radius: 4px;
+      border: 1px solid rgba(30,64,175,.06);
+      padding: 2.2rem 2.5rem;
+      margin-bottom: 1.4rem;
+      scroll-margin-top: 6rem;
+      transition: box-shadow .3s;
+    }
+    .priv-section:hover {
+      box-shadow: 0 6px 28px rgba(30,64,175,.07);
+    }
+
+    /* Número + título de sección */
+    .priv-section-header {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1.4rem;
+      padding-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(30,64,175,.06);
+    }
+    .priv-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; color: var(--navy);
+      flex-shrink: 0; line-height: 1;
+    }
+    .priv-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400;
+      color: var(--navy); line-height: 1.3;
+      margin-top: .15rem;
+    }
+
+    /* Texto del cuerpo */
+    .priv-body { font-size: .86rem; color: var(--gray); line-height: 1.85; }
+    .priv-body p { margin-bottom: .9rem; }
+    .priv-body p:last-child { margin-bottom: 0; }
+    .priv-body strong { color: var(--text); font-weight: 500; }
+    .priv-body a { color: var(--blue); text-decoration: none; transition: color .25s; }
+    .priv-body a:hover { color: var(--gold); }
+
+    /* Listas */
+    .priv-list {
+      list-style: none; display: flex; flex-direction: column;
+      gap: .55rem; margin: .9rem 0;
+    }
+    .priv-list li {
+      display: flex; align-items: flex-start; gap: .7rem;
+      font-size: .86rem; color: var(--gray); line-height: 1.6;
+    }
+    .priv-list li i {
+      color: var(--gold); font-size: .62rem;
+      flex-shrink: 0; margin-top: .3rem;
+    }
+
+    /* Sub-bloques dentro de sección */
+    .priv-sub {
+      background: var(--cream);
+      border-radius: 3px;
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+    }
+    .priv-sub-title {
+      font-size: .72rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--navy);
+      font-weight: 500; margin-bottom: .6rem;
+    }
+
+    /* Tarjeta de contacto */
+    .priv-contact-card {
+      background: var(--navy);
+      border-radius: 4px;
+      padding: 1.6rem 2rem;
+      display: flex; align-items: flex-start;
+      gap: 2rem; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .priv-contact-card .cc-block { display: flex; flex-direction: column; gap: .45rem; }
+    .priv-contact-card .cc-label {
+      font-size: .6rem; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .priv-contact-card .cc-val {
+      font-size: .83rem; color: rgba(255,255,255,.75);
+    }
+    .priv-contact-card a {
+      color: var(--gold-light); text-decoration: none; transition: color .25s;
+    }
+    .priv-contact-card a:hover { color: var(--white); }
+
+    /* Badge última actualización */
+    .priv-badge {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: rgba(201,151,58,.1);
+      border: 1px solid rgba(201,151,58,.25);
+      color: var(--gold); font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; padding: .3rem .85rem;
+      border-radius: 20px; margin-bottom: 1.4rem;
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .priv-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .priv-toc    { position: static; }
+    }
+    @media (max-width: 600px) {
+      .priv-content { padding: 3.5rem 5% 4rem; }
+      .priv-section { padding: 1.6rem 1.3rem; }
+      .priv-contact-card { padding: 1.3rem; gap: 1.2rem; }
+      .priv-meta { gap: 1rem; }
+    }
+
+    /* Versión plana sin fondo oscuro */
+.priv-contact-flat {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--cream);
+  border-radius: 4px;
+  border: 1px solid rgba(30,64,175,.08);
+  border-left: 3px solid rgba(201,151,58,.3);
+}
+.priv-contact-flat .cc-block {
+  display: flex; flex-direction: column; gap: .45rem;
+}
+.priv-contact-flat .cc-label {
+  font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+}
+.priv-contact-flat .cc-val {
+  font-size: .83rem; color: var(--text);
+}
+.priv-contact-flat a {
+  color: var(--blue); text-decoration: none; transition: color .25s;
+}
+.priv-contact-flat a:hover { color: var(--gold); }
+
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR (fragment) ══ -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- ══ HERO ══ -->
+<section class="priv-hero">
+  <div class="priv-hero-inner">
+    <div class="priv-eyebrow">Aviso de Privacidad Integral</div>
+    <h1>Tu privacidad es<br>nuestra <em>responsabilidad</em></h1>
+    <p>
+      En Niagara Viajes Pedregal tratamos tus datos personales con el mayor cuidado
+      y en cumplimiento de la Ley Federal de Protección de Datos Personales
+      en Posesión de los Particulares.
+    </p>
+    <div class="priv-meta">
+      <div class="priv-meta-item">
+        <i class="fas fa-calendar-alt"></i>
+        Última actualización: 06 de mayo de 2026
+      </div>
+      <div class="priv-meta-item">
+        <i class="fas fa-shield-alt"></i>
+        LFPDPPP — México
+      </div>
+      <div class="priv-meta-item">
+        <i class="fas fa-file-alt"></i>
+        6 secciones
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTENIDO ══ -->
+<div class="priv-content">
+  <div class="priv-layout">
+
+    <!-- ── Índice lateral ── -->
+    <aside>
+      <div class="priv-toc">
+        <div class="priv-toc-head">
+          <i class="fas fa-list"></i>
+          <span>Contenido</span>
+        </div>
+        <ul>
+          <li>
+            <a href="#s1">
+              <i class="fas fa-chevron-right"></i>
+              Identidad del responsable
+            </a>
+          </li>
+          <li>
+            <a href="#s2">
+              <i class="fas fa-chevron-right"></i>
+              Finalidades del tratamiento
+            </a>
+          </li>
+          <li>
+            <a href="#s3">
+              <i class="fas fa-chevron-right"></i>
+              Limitar uso de datos
+            </a>
+          </li>
+          <li>
+            <a href="#s4">
+              <i class="fas fa-chevron-right"></i>
+              Derechos ARCO
+            </a>
+          </li>
+          <li>
+            <a href="#s5">
+              <i class="fas fa-chevron-right"></i>
+              Transferencias a terceros
+            </a>
+          </li>
+          <li>
+            <a href="#s6">
+              <i class="fas fa-chevron-right"></i>
+              Cambios al aviso
+            </a>
+          </li>
+        </ul>
+        <div class="priv-toc-foot">
+          <a href="mailto:cleon@niagaraviajes.com">
+            <i class="fas fa-envelope"></i>
+            cleon@niagaraviajes.com
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Artículo ── -->
+    <article class="priv-article">
+
+      <div class="priv-badge">
+        <i class="fas fa-clock"></i>
+        Última actualización: 06 / 05 / 2026
+      </div>
+
+      <!-- ── 1. Identidad ── -->
+      <div class="priv-section" id="s1">
+        <div class="priv-section-header">
+          <div class="priv-num">1</div>
+          <h2 class="priv-section-title">
+            Identidad y domicilio del responsable
+          </h2>
+        </div>
+        <div class="priv-body">
+          <p>
+            <strong>CLANGLU CONSULTORES DE VIAJES</strong> es responsable del
+            tratamiento de sus datos personales conforme a la
+            <em>Ley Federal de Protección de Datos Personales en Posesión
+            de los Particulares</em> y su Reglamento.
+          </p>
+          <div class="priv-contact-flat">
+  <div class="cc-block">
+    <span class="cc-label">Razón social</span>
+    <span class="cc-val">Clanglu Consultores de Viajes SA de CV</span>
+  </div>
+  <div class="cc-block">
+    <span class="cc-label">Domicilio</span>
+    <span class="cc-val">
+      Amor 12, Lomas Boulevares,<br>
+      Tlalnepantla, Estado de México CP 54020
+    </span>
+  </div>
+  <div class="cc-block">
+    <span class="cc-label">Correo de contacto</span>
+    <a href="mailto:cleon@niagaraviajes.com" class="cc-val">
+      cleon@niagaraviajes.com
+    </a>
+  </div>
+</div>
+      <!-- ── 3. Limitar uso ── -->
+      <div class="priv-section" id="s3">
+        <div class="priv-section-header">
+          <div class="priv-num">3</div>
+          <h2 class="priv-section-title">
+            Opciones y medios para limitar el uso o divulgación de sus datos
+          </h2>
+        </div>
+        <div class="priv-body">
+          <p>
+            Usted puede limitar el uso o divulgación de sus datos personales
+            a través de los siguientes medios:
+          </p>
+          <ul class="priv-list">
+            <li>
+              <i class="fas fa-circle"></i>
+              Inscribiéndose en el
+              <strong>Registro Público para Evitar Publicidad (REPEP)</strong>
+              que opera la PROFECO.
+            </li>
+            <li>
+              <i class="fas fa-circle"></i>
+              Enviando una solicitud directa al responsable a través del
+              correo electrónico
+              <a href="mailto:cleon@niagaraviajes.com">
+                cleon@niagaraviajes.com
+              </a>.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── 4. Derechos ARCO ── -->
+      <div class="priv-section" id="s4">
+        <div class="priv-section-header">
+          <div class="priv-num">4</div>
+          <h2 class="priv-section-title">
+            Derechos ARCO
+          </h2>
+        </div>
+        <div class="priv-body">
+          <p>
+            Usted tiene los siguientes derechos respecto al tratamiento
+            de sus datos personales:
+          </p>
+
+          <!-- Grid ARCO -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0">
+            <div class="priv-sub" style="margin:0">
+              <div class="priv-sub-title">
+                <i class="fas fa-eye" style="color:var(--gold);margin-right:.35rem"></i>
+                Acceso
+              </div>
+              <p style="font-size:.82rem;color:var(--gray);line-height:1.6;margin:0">
+                Conocer qué datos personales poseemos sobre usted.
+              </p>
+            </div>
+            <div class="priv-sub" style="margin:0">
+              <div class="priv-sub-title">
+                <i class="fas fa-edit" style="color:var(--gold);margin-right:.35rem"></i>
+                Rectificación
+              </div>
+              <p style="font-size:.82rem;color:var(--gray);line-height:1.6;margin:0">
+                Corregir datos inexactos o incompletos.
+              </p>
+            </div>
+            <div class="priv-sub" style="margin:0">
+              <div class="priv-sub-title">
+                <i class="fas fa-trash-alt" style="color:var(--gold);margin-right:.35rem"></i>
+                Cancelación
+              </div>
+              <p style="font-size:.82rem;color:var(--gray);line-height:1.6;margin:0">
+                Solicitar la eliminación de sus datos cuando no sean necesarios.
+              </p>
+            </div>
+            <div class="priv-sub" style="margin:0">
+              <div class="priv-sub-title">
+                <i class="fas fa-ban" style="color:var(--gold);margin-right:.35rem"></i>
+                Oposición
+              </div>
+              <p style="font-size:.82rem;color:var(--gray);line-height:1.6;margin:0">
+                Oponerse al tratamiento para fines específicos.
+              </p>
+            </div>
+          </div>
+
+          <p style="margin-top:1rem">
+            <strong>Procedimiento para ejercer sus derechos ARCO:</strong>
+          </p>
+          <ul class="priv-list">
+            <li>
+              <i class="fas fa-circle"></i>
+              Enviar una solicitud al correo
+              <a href="mailto:cleon@niagaraviajes.com">
+                cleon@niagaraviajes.com
+              </a>
+              o al domicilio: Amor 12, Lomas Boulevares, Tlalnepantla,
+              Estado de México CP 54020.
+            </li>
+            <li>
+              <i class="fas fa-circle"></i>
+              La solicitud debe contener: nombre completo, documentos que
+              acrediten su identidad y una descripción clara de los datos
+              sobre los que desea ejercer su derecho.
+            </li>
+            <li>
+              <i class="fas fa-circle"></i>
+              El responsable dará respuesta en un plazo máximo de
+              <strong>20 días hábiles</strong>.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── 5. Transferencias ── -->
+      <div class="priv-section" id="s5">
+        <div class="priv-section-header">
+          <div class="priv-num">5</div>
+          <h2 class="priv-section-title">
+            Transferencias de datos a terceros
+          </h2>
+        </div>
+        <div class="priv-body">
+          <p>
+            Sus datos personales podrán ser compartidos con:
+          </p>
+          <ul class="priv-list">
+            <li>
+              <i class="fas fa-circle"></i>
+              <strong>Autoridades competentes</strong> en cumplimiento de
+              obligaciones legales.
+            </li>
+            <li>
+              <i class="fas fa-circle"></i>
+              <strong>Proveedores de servicios</strong> necesarios para
+              cumplir con las finalidades descritas en este aviso.
+            </li>
+          </ul>
+          <p>
+            Estas transferencias no requieren de su consentimiento por estar
+            previstas en la Ley. En caso de transferencias adicionales
+            (por ejemplo, con fines comerciales), solicitaremos su
+            <strong>consentimiento expreso y por escrito</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── 6. Cambios ── -->
+      <div class="priv-section" id="s6">
+        <div class="priv-section-header">
+          <div class="priv-num">6</div>
+          <h2 class="priv-section-title">
+            Procedimiento para notificar cambios al Aviso de Privacidad
+          </h2>
+        </div>
+        <div class="priv-body">
+          <p>
+            Nos reservamos el derecho de efectuar en cualquier momento
+            modificaciones o actualizaciones al presente Aviso de Privacidad.
+            Dichas modificaciones estarán disponibles en:
+          </p>
+          <ul class="priv-list">
+            <li>
+              <i class="fas fa-circle"></i>
+              Nuestro sitio web:
+              <a href="https://www.niagaraviajespedregal.com" target="_blank">
+                www.niagaraviajespedregal.com
+              </a>
+            </li>
+          </ul>
+
+          <div class="priv-sub" style="margin-top:1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+            <div>
+              <div class="priv-sub-title" style="margin-bottom:.2rem">
+                <i class="fas fa-calendar-check" style="color:var(--gold);margin-right:.35rem"></i>
+                Última actualización
+              </div>
+              <p style="font-size:.86rem;color:var(--text);margin:0;font-weight:500">
+                06 de mayo de 2026
+              </p>
+            </div>
+            <div style="margin-left:auto">
+              <a href="mailto:cleon@niagaraviajes.com"
+                 style="display:inline-flex;align-items:center;gap:.5rem;
+                        background:linear-gradient(135deg,var(--gold),var(--gold-light));
+                        color:var(--navy);padding:.65rem 1.4rem;border-radius:2px;
+                        font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+                        font-weight:600;text-decoration:none;
+                        transition:transform .25s,box-shadow .25s">
+                <i class="fas fa-envelope"></i> Contactar responsable
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Pie del artículo ── -->
+      <div style="text-align:center;padding:2rem 0 1rem;
+                  border-top:1px solid rgba(30,64,175,.08);margin-top:1rem">
+        <p style="font-size:.78rem;color:var(--gray);line-height:1.7">
+          Este aviso de privacidad ha sido elaborado en cumplimiento de lo
+          dispuesto por la
+          <strong>Ley Federal de Protección de Datos Personales en Posesión
+          de los Particulares</strong> y su Reglamento, publicados en el
+          Diario Oficial de la Federación.
+        </p>
+        <a th:href="@{/}"
+           style="display:inline-flex;align-items:center;gap:.5rem;
+                  margin-top:1.4rem;font-size:.78rem;color:var(--blue);
+                  text-decoration:none;transition:color .25s">
+          <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+      </div>
+
+    </article>
+  </div>
+</div>
+
+<!-- ══ FOOTER (fragment) ══ -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script th:src="@{/js/niagara.js}"></script>
+<script>
+  // Scroll suave para el índice
+  document.querySelectorAll('.priv-toc a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Resaltar sección activa en el TOC al hacer scroll
+  const sections  = document.querySelectorAll('.priv-section[id]');
+  const tocLinks  = document.querySelectorAll('.priv-toc a[href^="#"]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.style.borderLeftColor = 'transparent');
+        const active = document.querySelector(
+          `.priv-toc a[href="#${entry.target.id}"]`
+        );
+        if (active) {
+          active.style.borderLeftColor = 'var(--gold)';
+          active.style.color           = 'var(--navy)';
+        }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
