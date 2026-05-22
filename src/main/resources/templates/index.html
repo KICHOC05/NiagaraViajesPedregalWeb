@@ -291,6 +291,27 @@
              alt="Iberia">
         <span class="partner-name">Julia-Travels</span>
       </div>
+      <!-- NUEVA IMAGEN: Marriott -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/marriott.webp}"
+             onerror="this.style.display='none'"
+             alt="Marriott">
+        <span class="partner-name">Marriott</span>
+      </div>
+      <!-- NUEVA IMAGEN: Turkish Airlines -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/turkish-airlines.webp}"
+             onerror="this.style.display='none'"
+             alt="Turkish Airlines">
+        <span class="partner-name">Turkish Airlines</span>
+      </div>
+      <!-- NUEVA IMAGEN: Emirates -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/emirates.webp}"
+             onerror="this.style.display='none'"
+             alt="Emirates">
+        <span class="partner-name">Emirates</span>
+      </div>
       <!-- duplicar para loop continuo -->
         <div class="partner-chip">
         <img th:src="@{/img/aliados/aeromexico.webp}"
@@ -364,6 +385,27 @@
              alt="Iberia">
         <span class="partner-name">Julia-Travels</span>
       </div>
+      <!-- NUEVA IMAGEN: Marriott -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/marriott.webp}"
+             onerror="this.style.display='none'"
+             alt="Marriott">
+        <span class="partner-name">Marriott</span>
+      </div>
+      <!-- NUEVA IMAGEN: Turkish Airlines -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/turkish-airlines.webp}"
+             onerror="this.style.display='none'"
+             alt="Turkish Airlines">
+        <span class="partner-name">Turkish Airlines</span>
+      </div>
+      <!-- NUEVA IMAGEN: Emirates -->
+      <div class="partner-chip">
+        <img th:src="@{/img/aliados/emirates.webp}"
+             onerror="this.style.display='none'"
+             alt="Emirates">
+        <span class="partner-name">Emirates</span>
+      </div>
     </div>
     <div class="carousel-fade-r"></div>
   </div>
@@ -425,12 +467,18 @@
 
       <div class="stars" th:text="${t.estrellasStr}">★★★★★</div>
 
-      <blockquote>
-        <span th:text="'❝ ' + ${t.texto} + ' ❞'">"Testimonio..."</span>
-      </blockquote>
+      <blockquote th:text="|&quot;${t.texto}&quot;|">"Testimonio..."</blockquote>
 
       <div class="test-author">
-        <div class="test-av" th:text="${t.inicial}">P</div>
+        <!-- Avatar: foto si existe, inicial si no -->
+        <div class="test-av">
+          <img th:if="${t.imagenUrl != null}"
+               th:src="${t.imagenUrl}"
+               th:alt="${t.nombre}"
+               style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+          <span th:if="${t.imagenUrl == null}"
+                th:text="${t.inicial}">P</span>
+        </div>
         <div>
           <div class="test-name" th:text="${t.nombre}">Nombre</div>
           <div class="test-dest"
@@ -438,6 +486,7 @@
                th:text="'✦ ' + ${t.viaje}">✦ Viaje</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -468,10 +517,9 @@
         </div>
       </div>
       <div class="social-row">
-        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="soc-btn" href="#" target="_blank" data-wa><i class="fab fa-whatsapp"></i></a>
-        <a class="soc-btn" href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a class="soc-btn" href="https://www.facebook.com/NiagaraViajesPedregal" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a class="soc-btn" href="https://www.instagram.com/niagara_viajes_pedregal/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="soc-btn" href="https://wa.me/5215623981020?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n" target="_blank" data-wa><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div data-aos="fade-left" data-aos-delay="100">

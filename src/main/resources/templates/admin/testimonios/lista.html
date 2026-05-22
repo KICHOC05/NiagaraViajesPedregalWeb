@@ -159,7 +159,13 @@
 
             <!-- Autor -->
             <div class="test-author-row">
-              <div class="test-av" th:text="${t.inicial}">P</div>
+              <div class="test-av">
+                <img th:if="${t.imagenUrl != null}"
+                     th:src="${t.imagenUrl}"
+                     th:alt="${t.nombre}"
+                     style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+                <span th:if="${t.imagenUrl == null}" th:text="${t.inicial}">P</span>
+              </div>
               <div>
                 <div class="test-author-name" th:text="${t.nombre}">Nombre</div>
                 <div class="test-author-viaje"

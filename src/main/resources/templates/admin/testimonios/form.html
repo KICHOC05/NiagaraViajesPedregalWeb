@@ -15,190 +15,155 @@
       gap: 1.5rem;
       align-items: start;
     }
-
-    .form-field {
-      margin-bottom: 1.5rem;
-    }
-
+    .form-field { margin-bottom: 1.5rem; }
     .form-field label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--dark);
-      margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .85rem; font-weight: 500; color: var(--dark); margin-bottom: .5rem;
     }
-
-    .form-field label i { color: var(--gold); font-size: 0.9rem; }
-
+    .form-field label i { color: var(--gold); font-size: .9rem; }
     .form-field input,
     .form-field textarea,
     .form-field select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-      background: white;
+      width: 100%; padding: .75rem 1rem; border: 1px solid var(--border);
+      border-radius: 12px; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; transition: all .2s ease; background: white;
     }
-
     .form-field input:focus,
     .form-field textarea:focus,
     .form-field select:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+      outline: none; border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,.1);
     }
+    .field-hint { display: block; font-size: .7rem; color: var(--gray); margin-top: .35rem; }
 
-    .field-hint {
-      display: block;
-      font-size: 0.7rem;
-      color: var(--gray);
-      margin-top: 0.35rem;
-    }
-
-    /* Toggle switch */
+    /* Toggle */
     .toggle-wrap { display: flex; align-items: center; gap: .75rem; }
     .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
     .toggle-slider {
-      position: absolute; cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
       background-color: #cbd5e1; transition: .3s; border-radius: 34px;
     }
     .toggle-slider:before {
-      position: absolute; content: "";
-      height: 22px; width: 22px;
-      left: 3px; bottom: 3px;
-      background-color: white; transition: .3s; border-radius: 50%;
+      position: absolute; content: ""; height: 22px; width: 22px;
+      left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;
     }
     .toggle-switch input:checked + .toggle-slider { background-color: var(--gold); }
     .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
     .toggle-label { font-size: .85rem; color: var(--dark); }
 
     /* Estrellas interactivas */
-    .star-selector {
-      display: flex;
-      gap: .35rem;
-      margin-top: .25rem;
-    }
-
+    .star-selector { display: flex; gap: .35rem; margin-top: .25rem; flex-direction: row-reverse; justify-content: flex-end; }
     .star-selector input[type="radio"] { display: none; }
-
     .star-selector label {
-      font-size: 1.6rem;
-      color: #cbd5e1;
-      cursor: pointer;
-      transition: color .15s, transform .15s;
-      margin: 0;
-      padding: 0;
-      display: block;
+      font-size: 1.6rem; color: #cbd5e1; cursor: pointer;
+      transition: color .15s; margin: 0; padding: 0; display: block;
     }
-
-    .star-selector input[type="radio"]:checked ~ label,
-    .star-selector label:hover,
-    .star-selector label:hover ~ label {
-      color: #f59e0b;
-    }
-
-    /* Invertir orden para que el hover funcione correctamente */
-    .star-selector { flex-direction: row-reverse; justify-content: flex-end; }
     .star-selector label:hover,
     .star-selector label:hover ~ label { color: #f59e0b; }
     .star-selector input[type="radio"]:checked ~ label { color: #f59e0b; }
 
-    /* Preview card — estilo testimonio público */
-    .test-card-preview {
-      background: white;
-      border-radius: 24px;
-      padding: 2rem;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(0,0,0,.06);
-    }
-
-    .prev-stars {
-      color: #f59e0b;
-      font-size: 1.1rem;
-      margin-bottom: .75rem;
-      letter-spacing: .05em;
-    }
-
-    .prev-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-style: italic;
-      color: var(--dark);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-
-    .prev-author {
+    /* Upload zona avatar */
+    .avatar-upload-wrap {
       display: flex;
       align-items: center;
-      gap: .75rem;
+      gap: 1.25rem;
     }
-
-    .prev-av {
-      width: 42px;
-      height: 42px;
+    .avatar-preview-circle {
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       background: rgba(212,175,55,.12);
-      color: var(--gold);
+      border: 2px dashed var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 600;
+      overflow: hidden;
       flex-shrink: 0;
+      cursor: pointer;
+      transition: border-color .2s;
+      position: relative;
     }
+    .avatar-preview-circle:hover { border-color: var(--gold); }
+    .avatar-preview-circle img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+    }
+    .avatar-preview-circle .avatar-inicial {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .avatar-preview-circle .avatar-overlay {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(0,0,0,.35);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s;
+    }
+    .avatar-preview-circle:hover .avatar-overlay { opacity: 1; }
+    .avatar-overlay i { color: white; font-size: 1.1rem; }
+    .avatar-upload-info { flex: 1; }
+    .avatar-upload-info p { font-size: .82rem; color: var(--gray); line-height: 1.5; margin: 0 0 .5rem; }
+    .avatar-upload-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .78rem; font-weight: 500; color: var(--gold);
+      border: 1px solid var(--gold); border-radius: 30px;
+      padding: .3rem .85rem; cursor: pointer; background: transparent;
+      transition: all .2s;
+    }
+    .avatar-upload-btn:hover { background: var(--gold); color: white; }
+    .img-current-testimonio {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .72rem; color: var(--gray);
+      background: var(--bg-light); border-radius: 10px;
+      padding: .5rem .75rem; margin-top: .6rem;
+    }
+    .img-current-testimonio i { color: #10b981; }
 
-    .prev-name {
-      font-size: .88rem;
-      font-weight: 500;
-      color: var(--dark);
+    /* Preview card */
+    .test-card-preview {
+      background: white; border-radius: 24px; padding: 2rem;
+      border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,.06);
     }
-
-    .prev-dest {
-      font-size: .72rem;
-      color: var(--gray);
-      margin-top: .15rem;
+    .prev-stars { color: #f59e0b; font-size: 1.1rem; margin-bottom: .75rem; letter-spacing: .05em; }
+    .prev-quote {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+      font-style: italic; color: var(--dark); line-height: 1.6; margin-bottom: 1.25rem;
     }
+    .prev-author { display: flex; align-items: center; gap: .75rem; }
+    .prev-av {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(212,175,55,.12); color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+      font-weight: 600; flex-shrink: 0; overflow: hidden;
+    }
+    .prev-av img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .prev-name { font-size: .88rem; font-weight: 500; color: var(--dark); }
+    .prev-dest { font-size: .72rem; color: var(--gray); margin-top: .15rem; }
 
     /* Section divider */
     .form-section-divider {
-      display: flex; align-items: center; gap: .75rem;
-      margin: 1.75rem 0 1.25rem;
+      display: flex; align-items: center; gap: .75rem; margin: 1.75rem 0 1.25rem;
     }
     .form-section-divider span {
       font-size: .7rem; font-weight: 600; letter-spacing: .1em;
       text-transform: uppercase; color: var(--gray); white-space: nowrap;
     }
     .form-section-divider::before,
-    .form-section-divider::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
+    .form-section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
     /* Form actions */
-    .form-actions {
-      display: flex; gap: 1rem; margin-top: 2rem;
-      padding-top: 1.5rem; border-top: 1px solid var(--border);
-    }
-
+    .form-actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
     .btn-sm {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.2rem; border-radius: 40px;
-      font-size: .85rem; font-weight: 500; cursor: pointer;
-      transition: all .2s ease; border: none; text-decoration: none;
+      padding: .6rem 1.2rem; border-radius: 40px; font-size: .85rem;
+      font-weight: 500; cursor: pointer; transition: all .2s ease; border: none; text-decoration: none;
     }
     .btn-sm.primary { background: var(--gold); color: white; }
     .btn-sm.primary:hover { background: #b8942e; transform: translateY(-2px); }
     .btn-sm.outline { background: transparent; border: 1px solid var(--border); color: var(--dark); }
     .btn-sm.outline:hover { border-color: var(--gold); color: var(--gold); }
-
     .sticky-preview { position: sticky; top: 1rem; }
 
     @media (max-width: 900px) {
@@ -258,6 +223,7 @@
                             @{/dashboard/testimonios/nuevo} :
                             @{/dashboard/testimonios/{id}/editar(id=${testimonio.id})}"
                   method="post"
+                  enctype="multipart/form-data"
                   id="testimonioForm">
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
@@ -294,13 +260,58 @@
                 <span class="field-hint">Se muestra como "✦ Retiro Corporativo · Oaxaca"</span>
               </div>
 
+              <!-- ── Imagen del cliente ── -->
+              <div class="form-section-divider"><span>Foto del cliente</span></div>
+
+              <div class="form-field">
+                <label><i class="fas fa-user-circle"></i> Foto de perfil</label>
+
+                <!-- Zona de upload con círculo preview -->
+                <div class="avatar-upload-wrap">
+                  <div class="avatar-preview-circle"
+                       id="avatarCircle"
+                       onclick="document.getElementById('imagenInput').click()">
+                    <!-- Si hay imagen actual, la muestra -->
+                    <img th:if="${testimonio?.imagenUrl != null}"
+                         th:src="${testimonio.imagenUrl}"
+                         id="avatarImgEl"
+                         alt="Foto actual">
+                    <!-- Si no hay imagen, muestra la inicial -->
+                    <span class="avatar-inicial" id="avatarInicial"
+                          th:if="${testimonio?.imagenUrl == null}"
+                          th:text="${testimonio?.nombre != null} ? ${#strings.substring(testimonio.nombre, 0, 1).toUpperCase()} : '?'">?</span>
+                    <div class="avatar-overlay">
+                      <i class="fas fa-camera"></i>
+                    </div>
+                  </div>
+                  <div class="avatar-upload-info">
+                    <p>Foto circular del cliente que aparece junto a su testimonio. Si no se sube, se mostrará la inicial del nombre.</p>
+                    <button type="button" class="avatar-upload-btn"
+                            onclick="document.getElementById('imagenInput').click()">
+                      <i class="fas fa-upload"></i>
+                      <span th:text="${testimonio?.imagenUrl != null} ? 'Cambiar foto' : 'Subir foto'">Subir foto</span>
+                    </button>
+                    <!-- Indicador imagen actual -->
+                    <div class="img-current-testimonio"
+                         th:if="${testimonio?.imagenUrl != null}" id="currentImgInfo">
+                      <i class="fas fa-check-circle"></i>
+                      <span>Foto actual guardada — sube una nueva para reemplazarla</span>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="file" id="imagenInput" name="imagen"
+                       accept="image/*" style="display:none"
+                       onchange="previewAvatar(this)">
+                <span class="field-hint" style="margin-top:.6rem">JPG, PNG, WebP — máx. 5MB. Se recomienda imagen cuadrada.</span>
+              </div>
+
               <!-- ── Configuración ── -->
               <div class="form-section-divider"><span>Configuración</span></div>
 
               <div class="form-field">
                 <label><i class="fas fa-star"></i> Calificación</label>
                 <div class="star-selector" id="starSelector">
-                  <!-- Radio inverso: 5 al principio para que CSS :checked ~ funcione -->
                   <input type="radio" name="estrellas" id="s5" value="5"
                          th:checked="${testimonio?.estrellas == 5 or testimonio?.estrellas == null}"
                          onchange="updateStarsPreview()">
@@ -332,7 +343,6 @@
                          min="0" max="99" placeholder="0">
                   <span class="field-hint">Número menor aparece primero</span>
                 </div>
-
                 <div class="form-field" th:if="${accion == 'editar'}">
                   <label><i class="fas fa-toggle-on"></i> Visibilidad</label>
                   <div class="toggle-wrap" style="margin-top:.5rem">
@@ -370,7 +380,16 @@
                 <div class="prev-stars" id="prevStars">★★★★★</div>
                 <div class="prev-quote" id="prevQuote">"El testimonio aparecerá aquí..."</div>
                 <div class="prev-author">
-                  <div class="prev-av" id="prevAv">?</div>
+                  <!-- Avatar preview: img si hay foto, inicial si no -->
+                  <div class="prev-av" id="prevAv">
+                    <img id="prevAvImg"
+                         th:if="${testimonio?.imagenUrl != null}"
+                         th:src="${testimonio.imagenUrl}"
+                         alt="avatar"
+                         style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+                    <span id="prevAvInicial"
+                          th:if="${testimonio?.imagenUrl == null}">?</span>
+                  </div>
                   <div>
                     <div class="prev-name" id="prevNombre">Nombre del cliente</div>
                     <div class="prev-dest" id="prevViaje" style="display:none">✦ Viaje</div>
@@ -392,6 +411,7 @@
 
 <script th:src="@{/js/dashboard.js}"></script>
 <script>
+  // ── Actualiza preview de texto ──
   function updatePreview() {
     const nombre = document.querySelector('[name="nombre"]')?.value || '';
     const texto  = document.querySelector('[name="texto"]')?.value  || '';
@@ -399,21 +419,86 @@
 
     document.getElementById('prevNombre').textContent = nombre || 'Nombre del cliente';
     document.getElementById('prevQuote').textContent  = texto  ? `"${texto}"` : '"El testimonio aparecerá aquí..."';
-    document.getElementById('prevAv').textContent     = nombre ? nombre.charAt(0).toUpperCase() : '?';
+
+    // Actualiza inicial del avatar solo si no hay imagen subida
+    const prevAvImg = document.getElementById('prevAvImg');
+    const prevAvIni = document.getElementById('prevAvInicial');
+    if (!prevAvImg || prevAvImg.style.display === 'none') {
+      if (prevAvIni) prevAvIni.textContent = nombre ? nombre.charAt(0).toUpperCase() : '?';
+    }
+    // Actualiza inicial en el círculo de upload si no hay imagen
+    const avatarImgEl = document.getElementById('avatarImgEl');
+    const avatarInicial = document.getElementById('avatarInicial');
+    if (avatarInicial && (!avatarImgEl || avatarImgEl.style.display === 'none')) {
+      avatarInicial.textContent = nombre ? nombre.charAt(0).toUpperCase() : '?';
+    }
 
     const prevViaje = document.getElementById('prevViaje');
     if (viaje.trim()) {
-      prevViaje.textContent    = `✦ ${viaje}`;
-      prevViaje.style.display  = 'block';
+      prevViaje.textContent   = `✦ ${viaje}`;
+      prevViaje.style.display = 'block';
     } else {
-      prevViaje.style.display  = 'none';
+      prevViaje.style.display = 'none';
     }
   }
 
+  // ── Actualiza preview de estrellas ──
   function updateStarsPreview() {
     const selected = document.querySelector('[name="estrellas"]:checked');
     const count    = selected ? parseInt(selected.value) : 5;
     document.getElementById('prevStars').textContent = '★'.repeat(count);
+  }
+
+  // ── Preview de la foto del avatar ──
+  function previewAvatar(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      alert('La imagen no debe superar 5MB.');
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      const src = e.target.result;
+
+      // Actualiza círculo de upload
+      const circle  = document.getElementById('avatarCircle');
+      const inicial = document.getElementById('avatarInicial');
+      let imgEl     = document.getElementById('avatarImgEl');
+
+      if (!imgEl) {
+        imgEl    = document.createElement('img');
+        imgEl.id = 'avatarImgEl';
+        imgEl.alt = 'Foto';
+        circle.insertBefore(imgEl, circle.firstChild);
+      }
+      imgEl.src          = src;
+      imgEl.style.display = 'block';
+      if (inicial) inicial.style.display = 'none';
+
+      // Actualiza preview de la card
+      let prevImg = document.getElementById('prevAvImg');
+      const prevIni = document.getElementById('prevAvInicial');
+      const prevAv  = document.getElementById('prevAv');
+      if (!prevImg) {
+        prevImg    = document.createElement('img');
+        prevImg.id = 'prevAvImg';
+        prevImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+        prevAv.insertBefore(prevImg, prevAv.firstChild);
+      }
+      prevImg.src          = src;
+      prevImg.style.display = 'block';
+      if (prevIni) prevIni.style.display = 'none';
+
+      // Muestra info de imagen actual
+      const currentInfo = document.getElementById('currentImgInfo');
+      if (currentInfo) {
+        currentInfo.style.display = 'flex';
+        currentInfo.querySelector('span').textContent = 'Nueva foto seleccionada — se subirá al guardar';
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   document.addEventListener('DOMContentLoaded', () => {

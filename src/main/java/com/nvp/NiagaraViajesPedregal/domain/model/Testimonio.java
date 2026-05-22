@@ -44,6 +44,12 @@ public class Testimonio {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Column(length = 500)
+    private String imagenUrl;
+
+    @Column(length = 200)
+    private String imagenPublicId;
+
     /* ── Constructores ── */
     public Testimonio() {}
 
@@ -74,6 +80,12 @@ public class Testimonio {
 
     public LocalDateTime getUpdatedAt()       { return updatedAt; }
     public void setUpdatedAt(LocalDateTime u) { this.updatedAt = u; }
+
+    public String getImagenUrl()            { return imagenUrl; }
+    public void setImagenUrl(String u)      { this.imagenUrl = u; }
+
+    public String getImagenPublicId()       { return imagenPublicId; }
+    public void setImagenPublicId(String p) { this.imagenPublicId = p; }
 
     /* Helper: inicial del nombre para el avatar */
     public String getInicial() {

@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -38,10 +39,12 @@ public class AdminTestimonioController {
 
     /* ── POST CREAR ── */
     @PostMapping("/nuevo")
-    public String crear(@ModelAttribute Testimonio testimonio,
-                        RedirectAttributes ra) {
+    public String crear(
+            @ModelAttribute Testimonio testimonio,
+            @RequestParam(required = false) MultipartFile imagen,
+            RedirectAttributes ra) {
         try {
-            testimonioService.guardar(testimonio);
+            testimonioService.guardar(testimonio, imagen);
             ra.addFlashAttribute("success", "Testimonio creado correctamente.");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al crear: " + e.getMessage());
@@ -66,11 +69,13 @@ public class AdminTestimonioController {
 
     /* ── POST EDITAR ── */
     @PostMapping("/{id}/editar")
-    public String editar(@PathVariable Long id,
-                         @ModelAttribute Testimonio testimonio,
-                         RedirectAttributes ra) {
+    public String editar(
+            @PathVariable Long id,
+            @ModelAttribute Testimonio testimonio,
+            @RequestParam(required = false) MultipartFile imagen,
+            RedirectAttributes ra) {
         try {
-            testimonioService.actualizar(id, testimonio);
+            testimonioService.actualizar(id, testimonio, imagen);
             ra.addFlashAttribute("success", "Testimonio actualizado correctamente.");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al actualizar: " + e.getMessage());
