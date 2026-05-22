@@ -459,22 +459,21 @@
       Lo que dicen quienes <em>viajaron con nosotros</em>
     </h2>
   </div>
-  <div class="test-grid">
+
+  <!-- ── Modo GRID: 3 o menos testimonios ── -->
+  <div class="test-grid-static"
+       th:if="${testimonios == null or #lists.size(testimonios) <= 3}">
     <div class="test-card"
          th:each="t, iter : ${testimonios}"
          data-aos="fade-up"
          th:attr="data-aos-delay=${iter.index * 150}">
 
       <div class="stars" th:text="${t.estrellasStr}">★★★★★</div>
-
       <blockquote th:text="|&quot;${t.texto}&quot;|">"Testimonio..."</blockquote>
-
       <div class="test-author">
-        <!-- Avatar: foto si existe, inicial si no -->
         <div class="test-av">
           <img th:if="${t.imagenUrl != null}"
-               th:src="${t.imagenUrl}"
-               th:alt="${t.nombre}"
+               th:src="${t.imagenUrl}" th:alt="${t.nombre}"
                style="width:100%;height:100%;object-fit:cover;border-radius:50%">
           <span th:if="${t.imagenUrl == null}"
                 th:text="${t.inicial}">P</span>
@@ -486,7 +485,86 @@
                th:text="'✦ ' + ${t.viaje}">✦ Viaje</div>
         </div>
       </div>
+    </div>
 
+    <!-- Fallback si no hay testimonios en BD -->
+    <div th:if="${testimonios == null or #lists.isEmpty(testimonios)}">
+      <div class="test-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Niagara diseñó un retiro corporativo que fortaleció a nuestro equipo de una forma que ningún taller había logrado."</blockquote>
+        <div class="test-author">
+          <div class="test-av">P</div>
+          <div>
+            <div class="test-name">Patricia Jiménez</div>
+            <div class="test-dest">✦ Retiro Corporativo · Oaxaca</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card" data-aos="fade-up" data-aos-delay="150">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Cada detalle fue anticipado. Lo único que tuve que hacer fue disfrutar y crear recuerdos."</blockquote>
+        <div class="test-author">
+          <div class="test-av">M</div>
+          <div>
+            <div class="test-name">Mariana & Roberto López</div>
+            <div class="test-dest">✦ Toscana Esencial · Italia</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Como organización deportiva, necesitábamos precisión. Niagara cumplió al 100% — todo salió perfecto."</blockquote>
+        <div class="test-author">
+          <div class="test-av">C</div>
+          <div>
+            <div class="test-name">Carlos Mendoza</div>
+            <div class="test-dest">✦ Grupo Deportivo · Europa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modo CARRUSEL: más de 3 testimonios ── -->
+  <div class="test-carousel-wrap"
+       th:if="${testimonios != null and #lists.size(testimonios) > 3}"
+       id="testCarousel">
+
+    <!-- Track -->
+    <div class="test-track" id="testTrack">
+      <div class="test-card"
+           th:each="t, iter : ${testimonios}"
+           th:attr="data-index=${iter.index}">
+
+        <div class="stars" th:text="${t.estrellasStr}">★★★★★</div>
+        <blockquote th:text="|&quot;${t.texto}&quot;|">"Testimonio..."</blockquote>
+        <div class="test-author">
+          <div class="test-av">
+            <img th:if="${t.imagenUrl != null}"
+                 th:src="${t.imagenUrl}" th:alt="${t.nombre}"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+            <span th:if="${t.imagenUrl == null}"
+                  th:text="${t.inicial}">P</span>
+          </div>
+          <div>
+            <div class="test-name" th:text="${t.nombre}">Nombre</div>
+            <div class="test-dest"
+                 th:if="${t.viaje != null and !#strings.isEmpty(t.viaje)}"
+                 th:text="'✦ ' + ${t.viaje}">✦ Viaje</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <div class="test-controls">
+      <button class="test-btn" id="testPrev" aria-label="Anterior">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="test-dots" id="testDots"></div>
+      <button class="test-btn" id="testNext" aria-label="Siguiente">
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 </section>

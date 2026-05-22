@@ -465,4 +465,156 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   buildCalendar();
   applyWALinks();
+
+  /* ═══════════════════════════════════════════
+   CARRUSEL DE TESTIMONIOS
+═══════════════════════════════════════════ */
+(function initTestCarousel() {
+  const track    = document.getElementById('testTrack');
+  const prevBtn  = document.getElementById('testPrev');
+  const nextBtn  = document.getElementById('testNext');
+  const dotsWrap = document.getElementById('testDots');
+
+  if (!track) return; // No hay carrusel en esta página
+
+  const cards = Array.from(track.querySelectorAll('.test-card'));
+  if (cards.length === 0) return;
+
+  let current    = 0;
+  let autoTimer  = null;
+  let isDragging = false;
+  let startX     = 0;
+  let dragDelta  = 0;
+
+  /* ── Calcular cuántas cards son visibles ── */
+  function visibleCount() {
+    const w = window.innerWidth;
+    if (w <= 600)  return 1;
+    if (w <= 1024) return 2;
+    return 3;
+  }
+
+  /* ── Total de posiciones posibles ── */
+  function maxIndex() {
+    return Math.max(0, cards.length - visibleCount());
+  }
+
+  /* ── Ancho de una card + gap ── */
+  function cardWidth() {
+    if (cards.length === 0) return 0;
+    const gap  = 24; // 1.5rem = 24px
+    const card = cards[0];
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  /* ── Mover el track ── */
+  function goTo(index, animated = true) {
+    current = Math.max(0, Math.min(index, maxIndex()));
+
+    track.style.transition = animated
+      ? 'transform .45s cubic-bezier(.4,0,.2,1)'
+      : 'none';
+
+    track.style.transform =
+      `translateX(-${current * cardWidth()}px)`;
+
+    updateDots();
+    updateBtns();
+  }
+
+  /* ── Crear dots ── */
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    const total = maxIndex() + 1;
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'test-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Ir al testimonio ${i + 1}`);
+      dot.addEventListener('click', () => { goTo(i); resetAuto(); });
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function updateDots() {
+    if (!dotsWrap) return;
+    dotsWrap.querySelectorAll('.test-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function updateBtns() {
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current >= maxIndex();
+  }
+
+  /* ── Auto-play ── */
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(() => {
+      goTo(current >= maxIndex() ? 0 : current + 1);
+    }, 5000);
+  }
+  function stopAuto()  { clearInterval(autoTimer); }
+  function resetAuto() { stopAuto(); startAuto(); }
+
+  /* ── Eventos botones ── */
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      goTo(current - 1); resetAuto();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      goTo(current + 1); resetAuto();
+    });
+  }
+
+  /* ── Swipe táctil ── */
+  track.addEventListener('touchstart', e => {
+    startX    = e.touches[0].clientX;
+    isDragging = true;
+    stopAuto();
+  }, { passive: true });
+
+  track.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    dragDelta = e.touches[0].clientX - startX;
+    // Feedback visual mientras arrastra
+    track.style.transition = 'none';
+    track.style.transform  =
+      `translateX(${-current * cardWidth() + dragDelta}px)`;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    isDragging = false;
+    const threshold = 60; // px mínimos para cambiar slide
+    if      (dragDelta < -threshold) goTo(current + 1);
+    else if (dragDelta >  threshold) goTo(current - 1);
+    else                              goTo(current);
+    dragDelta = 0;
+    startAuto();
+  });
+
+  /* ── Pausar al hover (desktop) ── */
+  track.addEventListener('mouseenter', stopAuto);
+  track.addEventListener('mouseleave', startAuto);
+
+  /* ── Recalcular al cambiar tamaño ── */
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      buildDots();
+      goTo(Math.min(current, maxIndex()), false);
+    }, 200);
+  });
+
+  /* ── Inicializar ── */
+  buildDots();
+  goTo(0, false);
+  startAuto();
+
+})();
+
 });
