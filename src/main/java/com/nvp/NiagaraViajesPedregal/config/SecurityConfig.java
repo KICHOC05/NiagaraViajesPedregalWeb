@@ -100,7 +100,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/", "/login", "/registro", "/privacidad",
-                    "/css/**", "/js/**", "/img/**", "/favicon.ico"
+                    "/css/**", "/js/**", "/img/**", "/favicon.ico", "/robots.txt", "/sitemap.xml"
                 ).permitAll()
                 .requestMatchers("/dashboard/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
